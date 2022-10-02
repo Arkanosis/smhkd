@@ -12,11 +12,13 @@ smhkd is still in design phase and not yet ready for mainstream usage.
 
 ```
 Usage: smhkd list
+       smhkd run
        smhkd -h | --help
        smhkd --version
 
 Commands:
     list                     List available MIDI controllers.
+    run                      Listen to MIDI events and run commands.
 
 Arguments:
 
