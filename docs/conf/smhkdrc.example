@@ -1,0 +1,22 @@
+nanoKONTROL2 {
+
+{0,1,2}
+	pactl set-sink-volume {@DEFAULT_SINK@,HDMI,BT} $VALUE%
+
+32
+	pactl set-sink-volume @DEFAULT_SINK@ 100%
+
+48
+	pactl set-sink-volume @DEFAULT_SINK@ 30%
+
+64
+	pactl set-sink-volume @DEFAULT_SINK@ 0%
+
+}
+
+MDP218 {
+
+0
+	pactl set-sink-volume {@DEFAULT_SINK@,HDMI,BT} $VALUE%
+
+}
