@@ -16,7 +16,10 @@ use alsa::{
     },
 };
 
-use std::ffi::CString;
+use std::{
+    ffi::CString,
+    process::Command,
+};
 
 pub fn version() -> &'static str {
     env!("CARGO_PKG_VERSION")
@@ -35,7 +38,7 @@ pub fn list_controllers() -> () {
 }
 
 pub fn run() -> () {
-    let seq = Seq::open(None, Some(Direction::Capture), true).unwrap();
+    let seq = Seq::open(None, Some(Direction::Capture), false).unwrap();
 
     let device_name = CString::new("smhkd").unwrap();
     seq.set_client_name(&device_name).unwrap();
@@ -61,13 +64,51 @@ pub fn run() -> () {
     let mut descriptors = (&seq, Some(Direction::Capture)).get().unwrap();
     let mut input = seq.input();
     loop {
-        let event_pending = input.event_input_pending(true).unwrap();
-        if event_pending != 0 {
+        loop {
+            let event_pending = input.event_input_pending(true).unwrap();
+            if event_pending == 0 {
+                break;
+            }
             let event = input.event_input().unwrap();
             if event.get_type() == EventType::Controller {
                 let event_data: EvCtrl = event.get_data().unwrap();
-                println!("Control change: {}, {}", event_data.param, event_data.value);
                 // TODO run commands according to configuration
+                match event_data.param {
+                    0 => {
+                        Command::new("pactl")
+                            .arg("set-sink-volume")
+                            .arg("@DEFAULT_SINK@")
+                            .arg(format!("{}%", event_data.value))
+                            .status()
+                            .unwrap();
+                    }
+                    32 => {
+                        Command::new("pactl")
+                            .arg("set-sink-volume")
+                            .arg("@DEFAULT_SINK@")
+                            .arg("100%")
+                            .status()
+                            .unwrap();
+                    }
+                    48 => {
+                        Command::new("pactl")
+                            .arg("set-sink-volume")
+                            .arg("@DEFAULT_SINK@")
+                            .arg("30%")
+                            .status()
+                            .unwrap();
+                    }
+                    64 => {
+                        Command::new("pactl")
+                            .arg("set-sink-volume")
+                            .arg("@DEFAULT_SINK@")
+                            .arg("0%")
+                            .status()
+                            .unwrap();
+                    }
+                    _ => ()
+                }
+
             }
         }
         poll(&mut descriptors, -1).unwrap();

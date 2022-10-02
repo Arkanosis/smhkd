@@ -2,7 +2,7 @@
 
 **smhkd** (Simple MIDI hotkontrol daemon) is a daemon that reacts to MIDI events by executing commands.
 
-It's inspired by [sxhkd](https://github.com/baskerville/sxhkd), but handles MIDI events rather than X events.
+It's inspired by [sxhkd](https://github.com/baskerville/sxhkd), but handles ALSA MIDI events rather than X events.
 
 # Current Status
 
