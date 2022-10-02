@@ -1,0 +1,10 @@
+[Unit]
+Description=Simple MIDI HotKontrol Daemon
+Documentation=man:smhkd(1)
+
+[Service]
+ExecStart=/usr/bin/smhkd run
+ExecReload=/usr/bin/kill -SIGUSR1 $MAINPID
+
+[Install]
+WantedBy=multi-user.target
