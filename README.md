@@ -6,7 +6,24 @@ It's inspired by [sxhkd](https://github.com/baskerville/sxhkd), but handles MIDI
 
 # Current Status
 
-smhkd is still is design phase and not yet ready for mainstream usage.
+smhkd is still in design phase and not yet ready for mainstream usage.
+
+## Usage
+
+```
+Usage: smhkd list
+       smhkd -h | --help
+       smhkd --version
+
+Commands:
+    list                     List available MIDI controllers.
+
+Arguments:
+
+Options:
+    -h, --help               Show this screen.
+    --version                Show version.
+```
 
 ## Compiling
 

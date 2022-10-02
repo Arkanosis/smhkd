@@ -1,10 +1,12 @@
 use serde_derive::Deserialize;
 
 const USAGE: &str = "
-Usage: smhkd -h | --help
+Usage: smhkd list
+       smhkd -h | --help
        smhkd --version
 
 Commands:
+    list                     List available MIDI controllers.
 
 Arguments:
 
@@ -15,6 +17,7 @@ Options:
 
 #[derive(Deserialize)]
 struct Args {
+    cmd_list: bool,
     flag_version: bool,
 }
 
@@ -31,5 +34,9 @@ fn main() {
 
     if args.flag_version {
         println!("smhkd v{}", smhkd::version());
+    } else {
+        if args.cmd_list {
+            smhkd::list_controllers();
+        }
     }
 }
