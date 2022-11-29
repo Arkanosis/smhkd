@@ -20,3 +20,9 @@ MDP218 {
 	pactl set-sink-volume {@DEFAULT_SINK@,HDMI,BT} $VALUE%
 
 }
+
+# definitions outside of a scope apply to all devices
+# => to suggest to sxhkd as well, to have bindings per keyboard
+# "!" at the beginning of a command means it's a builtin
+# example of builtins: pulse, pipewire volume, pan…
+# implement builtins only if it helps with latency

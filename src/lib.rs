@@ -50,6 +50,7 @@ pub fn run() -> () {
     seq.create_port(&port_info).unwrap();
 
     // TODO subscribe to controllers from configuration
+    // TODO reload configuration on SIGUSR1
     let subscription = PortSubscribe::empty().unwrap();
     subscription.set_sender(Addr {
         client: 28,
@@ -82,10 +83,26 @@ pub fn run() -> () {
                             .status()
                             .unwrap();
                     }
+                    1 => {
+                        Command::new("pactl")
+                            .arg("set-sink-input-volume")
+                            .arg("47518") // TODO FIXME pactl list sinks short
+                            .arg(format!("{}%", event_data.value))
+                            .status()
+                            .unwrap();
+                    }
                     32 => {
                         Command::new("pactl")
                             .arg("set-sink-volume")
                             .arg("@DEFAULT_SINK@")
+                            .arg("100%")
+                            .status()
+                            .unwrap();
+                    }
+                    33 => {
+                        Command::new("pactl")
+                            .arg("set-sink-input-volume")
+                            .arg("47518") // TODO FIXME pactl list sinks short
                             .arg("100%")
                             .status()
                             .unwrap();
@@ -98,10 +115,26 @@ pub fn run() -> () {
                             .status()
                             .unwrap();
                     }
+                    49 => {
+                        Command::new("pactl")
+                            .arg("set-sink-input-volume")
+                            .arg("47518") // TODO FIXME pactl list sinks short
+                            .arg("80%")
+                            .status()
+                            .unwrap();
+                    }
                     64 => {
                         Command::new("pactl")
                             .arg("set-sink-volume")
                             .arg("@DEFAULT_SINK@")
+                            .arg("0%")
+                            .status()
+                            .unwrap();
+                    }
+                    65 => {
+                        Command::new("pactl")
+                            .arg("set-sink-input-volume")
+                            .arg("47518") // TODO FIXME pactl list sinks short
                             .arg("0%")
                             .status()
                             .unwrap();
