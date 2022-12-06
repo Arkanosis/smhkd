@@ -1,6 +1,6 @@
 # Maintainer: Jérémie Roquet <jroquet@arkanosis.net>
 pkgname=smhkd
-pkgver=0.2.0-dev
+pkgver=0.2.0
 pkgrel=0
 pkgdesc="Simple MIDI hotkontrol daemon"
 arch=("x86_64")
@@ -8,7 +8,7 @@ url="https://github.com/Arkanosis/smhkd"
 license=("custom:ISC")
 makedepends=("cargo" "git" "ruby-ronn")
 checkdepends=("cargo")
-source=("git+https://github.com/arkanosis/${pkgname}?signed") #tag=v0.3.0
+source=("git+https://github.com/arkanosis/${pkgname}?signed") #tag=v0.2.0
 md5sums=('SKIP')
 validpgpkeys=("FA490B15D054C7E83F70B0408C145ABAC11FA702")
 

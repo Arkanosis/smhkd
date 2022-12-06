@@ -8,6 +8,31 @@ It's inspired by [sxhkd](https://github.com/baskerville/sxhkd), but handles ALSA
 
 smhkd is still in design phase and not yet ready for mainstream usage.
 
+At the moment, *and at the moment only*, it reads a configuration file in `~/.config/smhkd/smhkdrc.json`, which looks like this:
+
+```json
+{
+    "28:0": {
+        "0": "pactl set-sink-volume @DEFAULT_SINK@ $VALUE%",
+        "32": "pactl set-sink-volume @DEFAULT_SINK@ 100%",
+        "48": "pactl set-sink-volume @DEFAULT_SINK@ 30%",
+        "64": "pactl set-sink-volume @DEFAULT_SINK@ 0%"
+    },
+    "129:0": {
+        "1": "pactl set-sink-volume @DEFAULT_SINK@ $VALUE%",
+        "67": "pactl set-sink-volume @DEFAULT_SINK@ 100%",
+        "66": "pactl set-sink-volume @DEFAULT_SINK@ 30%",
+        "64": "pactl set-sink-volume @DEFAULT_SINK@ 0%"
+    }
+}
+```
+
+and it listens to each pair of client and port (`28:0`, `129:0` and so on…) for MIDI events.
+
+Every time it receives an event, it runs the command associated with the controller ID (if any). Occurences of `$VALUE` in that command are replaced with the value of the event.
+
+Keep in mind that this configuration format is only temporary and will ultimately be replaced with something more similar to what *sxhkd* uses. There is no plan to provide backward compatibility with JSON or even a migration path when than happens.
+
 ## Usage
 
 ```
