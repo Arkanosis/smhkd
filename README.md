@@ -52,6 +52,10 @@ Options:
     --version                Show version.
 ```
 
+## Running on startup
+
+Run `systemctl --user enable --now smhkd` after installing.
+
 ## Compiling
 
 Run `cargo build --release` in your working copy.
