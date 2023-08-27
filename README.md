@@ -12,7 +12,7 @@ At the moment, *and at the moment only*, it reads a configuration file in `~/.co
 
 ```json
 {
-    "28:0": {
+    "@nanoKONTROL2": {
         "0": "pactl set-sink-volume @DEFAULT_SINK@ $VALUE%",
         "32": "pactl set-sink-volume @DEFAULT_SINK@ 100%",
         "48": "pactl set-sink-volume @DEFAULT_SINK@ 30%",
@@ -27,7 +27,7 @@ At the moment, *and at the moment only*, it reads a configuration file in `~/.co
 }
 ```
 
-and it listens to each pair of client and port (`28:0`, `129:0` and so on…) for MIDI events.
+and it listens to each pair of client and port (`28:0` — where `28` is the client number for `nanoKONTROL2` and `0` the first available port for it — `129:0` and so on…) for MIDI events.
 
 Every time it receives an event, it runs the command associated with the controller ID (if any). Occurences of `$VALUE` in that command are replaced with the value of the event.
 

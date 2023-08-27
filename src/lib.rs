@@ -23,6 +23,7 @@ use regex::Regex;
 use serde_json::Value;
 
 use std::{
+    collections::HashMap,
     ffi::CString,
     fs::File,
     io::BufReader,
@@ -80,22 +81,47 @@ pub fn run() -> () {
 
     let value_pattern = Regex::new(r"\$VALUE\b").unwrap();
 
-    if let Some(clients) = config.as_object() {
+    let mut subscribers: HashMap<String, &Value> = HashMap::new();
 
-        for client in clients.keys() {
-            let client_and_port: Vec<&str> = client.splitn(2, ":").collect();
+    if let Some(clients) = config.as_object() {
+        for client_name in clients.keys() {
+            let mut client = 0;
+            let mut port = 0;
+            if client_name.starts_with('@') {
+                let seq = Seq::open(None, None, false).unwrap();
+                for available_client in ClientIter::new(&seq) {
+                    if available_client.get_name().unwrap() == &client_name[1..] {
+                        client = available_client.get_client();
+                        for available_port in PortIter::new(&seq, available_client.get_client()) {
+                            port = available_port.get_port();
+                            // TODO don't break on first port if port is specified in config
+                            break;
+                        }
+                    }
+                }
+                // TODO warn at least if not found
+            } else {
+                if let Some((client_string, port_string)) = client_name.split_once(":") {
+                    client = client_string.parse().unwrap();
+                    port = port_string.parse().unwrap();
+                } else {
+                    // TODO warn at least
+                }
+            }
             let subscription = PortSubscribe::empty().unwrap();
             subscription.set_sender(Addr {
-                client: client_and_port.get(0).unwrap().parse().unwrap(),
-                port: client_and_port.get(1).unwrap_or(&"0").parse().unwrap(),
+                client,
+                port,
             });
             subscription.set_dest(Addr {
                 client: seq.client_id().unwrap(),
                 port: port_info.get_port(),
             });
             seq.subscribe_port(&subscription).unwrap_or_else(|_| {
-                eprintln!("smhkd: unable to subscribe to client {}, port {}", client_and_port.get(0).unwrap(), client_and_port.get(1).unwrap_or(&"0"));
+                eprintln!("smhkd: unable to subscribe to client {}, port {}", client, port);
             });
+
+            subscribers.insert(format!("{}:{}", client, port), clients.get(client_name).unwrap());
         }
 
         let mut descriptors = (&seq, Some(Direction::Capture)).get().unwrap();
@@ -109,7 +135,7 @@ pub fn run() -> () {
                 let event = input.event_input().unwrap();
                 if event.get_type() == EventType::Controller {
                     let event_source = event.get_source();
-                    if let Some(controllers) = clients.get(&format!("{}:{}", event_source.client, event_source.port)) {
+                    if let Some(controllers) = subscribers.get(&format!("{}:{}", event_source.client, event_source.port)) {
                         let event_data: EvCtrl = event.get_data().unwrap();
                         let command_template = controllers.get(&format!("{}", event_data.param)).unwrap().as_str().unwrap();
                         // TODO consider using a shell here
