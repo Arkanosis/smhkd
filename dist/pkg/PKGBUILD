@@ -1,6 +1,6 @@
 # Maintainer: Jérémie Roquet <jroquet@arkanosis.net>
 pkgname=smhkd
-pkgver=0.3.0-dev
+pkgver=0.3.0
 pkgrel=0
 pkgdesc="Simple MIDI hotkontrol daemon"
 arch=("x86_64")
@@ -26,6 +26,7 @@ check() {
 package() {
     cd "$srcdir/$pkgname"
     install -Dm755 "target/release/$pkgname" "$pkgdir/usr/bin/$pkgname"
+    install -Dm755 "systemd/$pkgname.service" "$pkgdir/usr/lib/systemd/user/$pkgname.service"
     install -Dm644 "docs/man/$pkgname.1.gz" "$pkgdir/usr/share/man/man1/$pkgname.1.gz"
     install -Dm644 "completion/bash/$pkgname" "$pkgdir/usr/share/bash-completion/completions/$pkgname"
     install -Dm644 "completion/zsh/_$pkgname" "$pkgdir/usr/share/zsh/site-functions/_$pkgname"
