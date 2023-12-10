@@ -137,22 +137,24 @@ pub fn run() -> () {
                     let event_source = event.get_source();
                     if let Some(controllers) = subscribers.get(&format!("{}:{}", event_source.client, event_source.port)) {
                         let event_data: EvCtrl = event.get_data().unwrap();
-                        let command_template = controllers.get(&format!("{}", event_data.param)).unwrap().as_str().unwrap();
-                        // TODO consider using a shell here
-                        //   pros:
-                        //     - $VALUE can be passed as an environment variable
-                        //     - other environment variables can be used
-                        //     - argument splitting and other shell features are builtin
-                        //   cons:
-                        //     - security risks (only if the user is unaware)
-                        //     - performance overhead of double fork/exec (mitigated by providing builtins for most common use-cases that don't even fork)
-                        let command = value_pattern.replace_all(command_template, format!("{}", event_data.value));
-                        let mut command_parts: Vec<&str> = command.split(' ').collect();
-                        let (program, arguments) = (command_parts.remove(0), command_parts);
-                        Command::new(program)
-                            .args(arguments)
-                            .status()
-                            .unwrap();
+                        if let Some(controller) = controllers.get(&format!("{}", event_data.param)) {
+                            let command_template = controller.as_str().unwrap();
+                            // TODO consider using a shell here
+                            //   pros:
+                            //     - $VALUE can be passed as an environment variable
+                            //     - other environment variables can be used
+                            //     - argument splitting and other shell features are builtin
+                            //   cons:
+                            //     - security risks (only if the user is unaware)
+                            //     - performance overhead of double fork/exec (mitigated by providing builtins for most common use-cases that don't even fork)
+                            let command = value_pattern.replace_all(command_template, format!("{}", event_data.value));
+                            let mut command_parts: Vec<&str> = command.split(' ').collect();
+                            let (program, arguments) = (command_parts.remove(0), command_parts);
+                            Command::new(program)
+                                .args(arguments)
+                                .status()
+                                .unwrap();
+                        }
                     }
                 }
             }
