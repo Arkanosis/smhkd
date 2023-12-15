@@ -16,7 +16,8 @@ At the moment, *and at the moment only*, it reads a configuration file in `~/.co
         "0": "pactl set-sink-volume @DEFAULT_SINK@ $VALUE%",
         "32": "pactl set-sink-volume @DEFAULT_SINK@ 100%",
         "48": "pactl set-sink-volume @DEFAULT_SINK@ 30%",
-        "64": "pactl set-sink-volume @DEFAULT_SINK@ 0%"
+        "64": "pactl set-sink-volume @DEFAULT_SINK@ 0%",
+        "7": "v4l2-ctl -d /dev/video0 --set-ctrl=zoom_absolute=$VALUE"
     },
     "129:0": {
         "1": "pactl set-sink-volume @DEFAULT_SINK@ $VALUE%",
