@@ -30,7 +30,7 @@ At the moment, *and at the moment only*, it reads a configuration file in `~/.co
 
 and it listens to each pair of client and port (`28:0` — where `28` is the client number for `nanoKONTROL2` and `0` the first available port for it — `129:0` and so on…) for MIDI events.
 
-Every time it receives an event, it runs the command associated with the controller ID (if any). Occurences of `$VALUE` in that command are replaced with the value of the event.
+Every time it receives an event, it runs the command associated with the controller ID (if any). Occurences of `$VALUE` in that command are replaced with the value of the event. In the example above, it sets the volume of a PulseAudio sink (which can actually be a PipeWire) or the zoom level of a webcam, but any command could be executed instead.
 
 Keep in mind that this configuration format is only temporary and will ultimately be replaced with something more similar to what *sxhkd* uses. There is no plan to provide backward compatibility with JSON or even a migration path when than happens.
 
@@ -69,5 +69,5 @@ Please report bugs and feature requests on [GitHub issues](https://github.com/Ar
 
 ## License
 
-smhkd is copyright (C) 2022 Jérémie Roquet <jroquet@arkanosis.net> and licensed under the ISC license.
+smhkd is copyright (C) 2022-2024 Jérémie Roquet <jroquet@arkanosis.net> and licensed under the ISC license.
 
