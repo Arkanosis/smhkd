@@ -30,7 +30,7 @@ nanoKONTROL2 {
 +59
 	playerctl next
 
-+60
++61
 	ddcutil --display 2 setvcp 60 0x11
 
 +62

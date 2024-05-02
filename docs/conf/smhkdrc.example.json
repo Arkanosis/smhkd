@@ -12,7 +12,7 @@
         "+58": "playerctl previous",
         "+59": "playerctl next",
 
-        "+60": "ddcutil --display 2 setvcp 60 0x11",
+        "+61": "ddcutil --display 2 setvcp 60 0x11",
         "+62": "ddcutil --display 2 setvcp 60 0x0f",
 
         "7": "v4l2-ctl -d /dev/video0 --set-ctrl=zoom_absolute=$VALUE"
