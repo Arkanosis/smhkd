@@ -137,7 +137,13 @@ pub fn run() -> () {
                     let event_source = event.get_source();
                     if let Some(controllers) = subscribers.get(&format!("{}:{}", event_source.client, event_source.port)) {
                         let event_data: EvCtrl = event.get_data().unwrap();
-                        if let Some(controller) = controllers.get(&format!("{}", event_data.param)) {
+                        if let Some(controller) = controllers.get(&format!("{}", event_data.param)).or_else(|| {
+                            match event_data.value {
+                                0 => controllers.get(&format!("-{}", event_data.param)),
+                                127 => controllers.get(&format!("+{}", event_data.param)),
+                                _ => None
+                            }
+                        }) {
                             let command_template = controller.as_str().unwrap();
                             // TODO consider using a shell here
                             //   pros:

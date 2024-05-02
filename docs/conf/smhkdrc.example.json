@@ -1,15 +1,26 @@
 {
     "@nanoKONTROL2": {
         "0": "pactl set-sink-volume @DEFAULT_SINK@ $VALUE%",
-        "32": "pactl set-sink-volume @DEFAULT_SINK@ 100%",
-        "48": "pactl set-sink-volume @DEFAULT_SINK@ 30%",
-        "64": "pactl set-sink-volume @DEFAULT_SINK@ 0%",
+        "+32": "pactl set-sink-volume @DEFAULT_SINK@ 100%",
+        "+48": "pactl set-sink-volume @DEFAULT_SINK@ 30%",
+        "+64": "pactl set-sink-volume @DEFAULT_SINK@ 0%",
+
+        "+41": "playerctl play-pause",
+        "+42": "playerctl stop",
+        "+43": "playerctl position 15-",
+        "+44": "playerctl position 15+",
+        "+58": "playerctl previous",
+        "+59": "playerctl next",
+
+        "+60": "ddcutil --display 2 setvcp 60 0x11",
+        "+62": "ddcutil --display 2 setvcp 60 0x0f",
+
         "7": "v4l2-ctl -d /dev/video0 --set-ctrl=zoom_absolute=$VALUE"
     },
     "129:0": {
         "1": "pactl set-sink-volume @DEFAULT_SINK@ $VALUE%",
-        "67": "pactl set-sink-volume @DEFAULT_SINK@ 100%",
-        "66": "pactl set-sink-volume @DEFAULT_SINK@ 30%",
-        "64": "pactl set-sink-volume @DEFAULT_SINK@ 0%"
+        "+67": "pactl set-sink-volume @DEFAULT_SINK@ 100%",
+        "+66": "pactl set-sink-volume @DEFAULT_SINK@ 30%",
+        "+64": "pactl set-sink-volume @DEFAULT_SINK@ 0%"
     }
 }
