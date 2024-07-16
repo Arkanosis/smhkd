@@ -1,4 +1,4 @@
-rmhkd(1) -- Simple MIDI hotkontrol daemon
+smhkd(1) -- Simple MIDI hotkontrol daemon
 =========================================
 
 ## SYNOPSIS

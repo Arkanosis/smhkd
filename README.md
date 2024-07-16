@@ -46,6 +46,7 @@ Every time it receives an event, it runs the command associated with the control
  - controls a music / video player;
  - switches the active input source of a DisplayPort / HDMI monitor;
  - sets the zoom level of a webcam
+
 but any command could be executed instead.
 
 Keep in mind that this configuration format is only temporary and will ultimately be replaced with something more similar to what *sxhkd* uses. There is no plan to provide backward compatibility with JSON or even a migration path when than happens.
